@@ -4,8 +4,9 @@ import Habit from "@/components/habit";
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      <Habit />
-      <Habit />
+      <View style={styles.title_box}>
+        <Text style={styles.title}>Today</Text>
+      </View>
       <Habit />
       <Habit />
       <Habit />
@@ -17,7 +18,15 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
+    paddingTop: 50,
+  },
+  title: {
+    fontSize: 35,
+    fontWeight: "800",
+  },
+  title_box: {
+    width: "100%",
+    paddingHorizontal: 20,
   },
 });

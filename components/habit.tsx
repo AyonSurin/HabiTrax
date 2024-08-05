@@ -4,7 +4,7 @@ export default function Habit() {
   return (
     <View style={styles.container}>
       <View style={styles.leftContainer}>
-        <TouchableOpacity style={styles.iconContainer}>
+        <TouchableOpacity>
           <Image
             style={styles.tick}
             source={require("../assets/images/Vector.png")}
