@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, StatusBar } from "react-native";
+import { View, Text, StyleSheet, StatusBar, ScrollView } from "react-native";
 import Habit from "@/components/habit";
 import NavBar from "@/components/NavBar";
 
@@ -11,11 +11,14 @@ export default function HomeScreen() {
       <View style={styles.title_box}>
         <Text style={styles.title}>Today</Text>
       </View>
-      <Habit />
-      <Habit />
-      <Habit />
-      <Habit />
-      <Habit />
+      <ScrollView style={{ width: "100%" }}>
+        <Habit />
+        <Habit />
+        <Habit />
+        <Habit />
+        <Habit />
+        <Habit />
+      </ScrollView>
     </View>
   );
 }
