@@ -13,6 +13,7 @@ export default function HomeScreen() {
       <Habit />
       <Habit />
       <Habit />
+      <Habit />
     </View>
   );
 }
