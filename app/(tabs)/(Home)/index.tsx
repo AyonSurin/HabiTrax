@@ -1,9 +1,11 @@
 import { View, Text, StyleSheet } from "react-native";
 import Habit from "@/components/habit";
+import NavBar from "@/components/NavBar";
 
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
+      <NavBar />
       <View style={styles.title_box}>
         <Text style={styles.title}>Today</Text>
       </View>
