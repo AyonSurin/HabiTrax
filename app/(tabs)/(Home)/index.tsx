@@ -1,8 +1,10 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, StatusBar } from "react-native";
 import Habit from "@/components/habit";
 import NavBar from "@/components/NavBar";
 
 export default function HomeScreen() {
+  StatusBar.setBarStyle("dark-content");
+  StatusBar.setBackgroundColor("#f2f2f2");
   return (
     <View style={styles.container}>
       <NavBar />
