@@ -7,7 +7,7 @@ export default function Habit() {
         <TouchableOpacity>
           <Image
             style={styles.tick}
-            source={require("../assets/images/Vector.png")}
+            source={require("../assets/images/tick.png")}
           />
         </TouchableOpacity>
       </View>
@@ -66,8 +66,8 @@ const styles = StyleSheet.create({
     color: "black",
   },
   tick: {
-    height: 55,
-    width: 55,
+    height: 60,
+    width: 60,
   },
   streak_title: {
     fontSize: 25,

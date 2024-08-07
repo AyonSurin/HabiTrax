@@ -31,6 +31,8 @@ const styles = StyleSheet.create({
   },
   logo: {
     marginLeft: 10,
+    height: 45,
+    width: 45,
   },
   iconsContainer: {
     flexDirection: "row",
@@ -39,5 +41,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginHorizontal: 15,
+    width: 20,
+    height: 20,
   },
 });

@@ -1,4 +1,4 @@
-rootProject.name = 'habitrax'
+rootProject.name = 'Habitrax'
 
 dependencyResolutionManagement {
   versionCatalogs {

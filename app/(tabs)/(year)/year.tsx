@@ -1,5 +1,6 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import NavBar from "@/components/NavBar";
+import YearlyCalendar from "@/components/calendar/YearlyCalendar";
 
 export default function Month() {
   return (
@@ -8,6 +9,12 @@ export default function Month() {
       <View style={styles.title_box}>
         <Text style={styles.title}>Year</Text>
       </View>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <YearlyCalendar />
+        <YearlyCalendar />
+        <YearlyCalendar />
+        <YearlyCalendar />
+      </ScrollView>
     </View>
   );
 }

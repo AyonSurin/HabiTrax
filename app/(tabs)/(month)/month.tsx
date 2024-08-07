@@ -9,7 +9,10 @@ export default function Month() {
       <View style={styles.title_box}>
         <Text style={styles.title}>Monthly</Text>
       </View>
-      <ScrollView style={styles.scrollContainer}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={styles.scrollContainer}
+      >
         <MonthCalendar />
         <MonthCalendar />
         <MonthCalendar />
