@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import NavBar from "@/components/NavBar";
+import MonthCalendar from "@/components/calendar/MonthCalendar";
 
 export default function Month() {
   return (
@@ -7,6 +8,7 @@ export default function Month() {
       <NavBar />
       <View style={styles.title_box}>
         <Text style={styles.title}>Month</Text>
+        <MonthCalendar />
       </View>
     </View>
   );
