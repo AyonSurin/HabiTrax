@@ -1,43 +1,3 @@
-// import { View, Text, StyleSheet } from "react-native";
-
-// export default function MonthCalendar() {
-//   return (
-//     <View style={styles.container}>
-//       <Text style={styles.habitTitle}>Habit</Text>
-//       <View style={styles.subTextBox}>
-//         <Text style={styles.subText}>Month</Text>
-//       </View>
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     marginTop: 30,
-//     width: "100%",
-//     height: 350,
-//     borderRadius: 20,
-//     borderWidth: 3,
-//     borderColor: "black",
-//     shadowRadius: 20,
-//     shadowColor: "black",
-//     shadowOpacity: 60,
-//     shadowOffset: { width: 20, height: 30 },
-//   },
-//   habitTitle: {
-//     fontWeight: "700",
-//     fontSize: 35,
-//     marginLeft: 15,
-//   },
-//   subTextBox: {},
-//   subText: {
-//     fontWeight: "600",
-//     fontSize: 25,
-//     textAlign: "center",
-//   },
-// });
-
-import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 export default function MonthCalendar() {
@@ -91,7 +51,7 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 30,
     padding: 15,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: "black",
     borderRadius: 10,
     backgroundColor: "#f5f5f5",
@@ -110,7 +70,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   calendarContainer: {
-    width: "100%",
+    width: "93%",
   },
   weekHeader: {
     flexDirection: "row",
@@ -129,12 +89,14 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   dayBox: {
-    width: "13%",
+    width: "10%",
+    height: "10%",
     aspectRatio: 1,
-    margin: 2,
-    borderRadius: 15,
+    margin: 6.995,
+    borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
+    elevation: 5,
   },
   filledDayBox: {
     backgroundColor: "black",
@@ -145,7 +107,7 @@ const styles = StyleSheet.create({
   dayText: {
     color: "white",
     fontWeight: "600",
-    fontSize: 20,
+    fontSize: 17,
   },
   footerText: {
     textAlign: "center",
