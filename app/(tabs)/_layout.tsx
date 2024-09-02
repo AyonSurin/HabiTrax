@@ -70,6 +70,21 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="(login)"
+        options={{
+          headerShown: false,
+          title: "Login",
+          tabBarIcon: ({ focused }) => (
+            <View style={focused ? styles.activeTab : styles.tab}>
+              <Image
+                style={{ width: 25, height: 25 }}
+                source={require("../../assets/images/tick.png")} // Replace "#" with the actual image path
+              />
+            </View>
+          ),
+        }}
+      />
     </Tabs>
   );
 }
