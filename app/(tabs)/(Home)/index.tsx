@@ -18,6 +18,11 @@ export default function HomeScreen() {
         <Habit />
         <Habit />
         <Habit />
+        <Habit />
+        <Habit />
+        <Habit />
+        <Habit />
+        <Habit />
       </ScrollView>
     </View>
   );

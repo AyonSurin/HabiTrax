@@ -7,7 +7,7 @@ export default function Habit() {
         <TouchableOpacity>
           <Image
             style={styles.tick}
-            source={require("../assets/images/tick.png")}
+            source={require("@/assets/images/tick.png")}
           />
         </TouchableOpacity>
       </View>
@@ -19,7 +19,7 @@ export default function Habit() {
         <Text style={styles.streak_title}>40</Text>
         <Text style={styles.streak_unit}>Days</Text>
       </View>
-      <Image source={require("../assets/images/fire_icon.png")} />
+      <Image source={require("@/assets/images/fire_icon.png")} />
     </View>
   );
 }

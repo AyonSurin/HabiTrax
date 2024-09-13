@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import React, { useState } from "react";
 import {
   View,
@@ -37,10 +38,6 @@ export default function SignupScreen() {
         onChangeText={setLastName}
       />
 
-      <Text style={styles.infoText}>
-        Make sure it matches the name on your government ID.
-      </Text>
-
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -48,9 +45,6 @@ export default function SignupScreen() {
         onChangeText={setEmail}
         keyboardType="email-address"
       />
-      <Text style={styles.infoText}>
-        We will email you trip confirmations and receipts.
-      </Text>
 
       <View style={styles.passwordContainer}>
         <TextInput
@@ -65,17 +59,11 @@ export default function SignupScreen() {
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.termsText}>
-        By selecting Agree and continue, I agree to Dynamic Layers{" "}
-        <Text style={styles.linkText}>
-          Terms of Service, Payments Terms of Service
-        </Text>{" "}
-        and <Text style={styles.linkText}>Notification Policy</Text> and
-        acknowledge the <Text style={styles.linkText}>Privacy Policy</Text>.
-      </Text>
-
-      <TouchableOpacity style={styles.button} disabled>
-        <Text style={styles.buttonText}>Agree and continue</Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => router.replace("/(tabs)")}
+      >
+        <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
     </View>
   );
@@ -92,6 +80,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
     textAlign: "center",
+    marginTop: 50,
   },
   input: {
     borderWidth: 1,
@@ -132,7 +121,7 @@ const styles = StyleSheet.create({
     color: "#4d90fe",
   },
   button: {
-    backgroundColor: "#ccc",
+    backgroundColor: "#7e49ff",
     padding: 15,
     borderRadius: 5,
     alignItems: "center",

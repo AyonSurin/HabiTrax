@@ -5,16 +5,16 @@ export default function NavBar() {
     <View style={styles.container}>
       <Image
         style={styles.logo}
-        source={require("../assets/images/navbar_logo.png")}
+        source={require("@/assets/images/navbar_logo.png")}
       />
       <View style={styles.iconsContainer}>
         <Image
           style={styles.icon}
-          source={require("../assets/images/add_habit.png")}
+          source={require("@/assets/images/add_habit.png")}
         />
         <Image
           style={styles.icon}
-          source={require("../assets/images/profile.png")}
+          source={require("@/assets/images/profile.png")}
         />
       </View>
     </View>

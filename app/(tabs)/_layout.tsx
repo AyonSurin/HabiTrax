@@ -23,7 +23,7 @@ export default function TabLayout() {
             <View style={focused ? styles.activeTab : styles.tab}>
               <Image
                 style={{ width: 25, height: 25 }}
-                source={require("../../assets/images/tick.png")} // Replace "#" with the actual image path
+                source={require("@/assets/images/tick.png")} // Replace "#" with the actual image path
               />
             </View>
           ),
@@ -38,7 +38,7 @@ export default function TabLayout() {
             <View style={focused ? styles.activeTab : styles.tab}>
               <Image
                 style={{ width: 25, height: 25 }}
-                source={require("../../assets/images/Vectorcalendar.png")} // Replace "#" with the actual image path
+                source={require("@/assets/images/Vectorcalendar.png")} // Replace "#" with the actual image path
               />
             </View>
           ),
@@ -52,7 +52,7 @@ export default function TabLayout() {
           tabBarIcon: () => (
             <Image
               style={{ width: 25, height: 25 }}
-              source={require("../../assets/images/material-symbols_calendar-view-month.png")} // Replace "#" with the actual image path
+              source={require("@/assets/images/material-symbols_calendar-view-month.png")} // Replace "#" with the actual image path
             />
           ),
         }}
@@ -65,23 +65,8 @@ export default function TabLayout() {
           tabBarIcon: () => (
             <Image
               style={{ width: 25, height: 25 }}
-              source={require("../../assets/images/material-symbols_settings-rounded.png")} // Replace "#" with the actual image path
+              source={require("@/assets/images/material-symbols_settings-rounded.png")} // Replace "#" with the actual image path
             />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="(login)"
-        options={{
-          headerShown: false,
-          title: "Login",
-          tabBarIcon: ({ focused }) => (
-            <View style={focused ? styles.activeTab : styles.tab}>
-              <Image
-                style={{ width: 25, height: 25 }}
-                source={require("../../assets/images/tick.png")} // Replace "#" with the actual image path
-              />
-            </View>
           ),
         }}
       />
