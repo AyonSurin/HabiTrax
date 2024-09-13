@@ -12,10 +12,6 @@ export default function NavBar() {
           style={styles.icon}
           source={require("@/assets/images/add_habit.png")}
         />
-        <Image
-          style={styles.icon}
-          source={require("@/assets/images/profile.png")}
-        />
       </View>
     </View>
   );

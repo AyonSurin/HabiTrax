@@ -18,7 +18,7 @@ export default function TabLayout() {
         name="(Home)"
         options={{
           headerShown: false,
-          title: "Today",
+          title: "Home",
           tabBarIcon: ({ focused }) => (
             <View style={focused ? styles.activeTab : styles.tab}>
               <Image
@@ -30,30 +30,17 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="(month)"
+        name="(Profile)"
         options={{
           headerShown: false,
-          title: "Month",
+          title: "Profile",
           tabBarIcon: ({ focused }) => (
             <View style={focused ? styles.activeTab : styles.tab}>
               <Image
                 style={{ width: 25, height: 25 }}
-                source={require("@/assets/images/Vectorcalendar.png")} // Replace "#" with the actual image path
+                source={require("@/assets/images/profile.png")} // Replace "#" with the actual image path
               />
             </View>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="(year)"
-        options={{
-          headerShown: false,
-          title: "Year",
-          tabBarIcon: () => (
-            <Image
-              style={{ width: 25, height: 25 }}
-              source={require("@/assets/images/material-symbols_calendar-view-month.png")} // Replace "#" with the actual image path
-            />
           ),
         }}
       />

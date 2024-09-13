@@ -1,20 +1,16 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import NavBar from "@/components/NavBar";
-import YearlyCalendar from "@/components/calendar/YearlyCalendar";
+import WeekCalendar from "@/components/calendar/WeeklyCalendar";
+import HabitDesc from "@/components/HabitDesc";
 
 export default function Month() {
   return (
     <View style={styles.container}>
       <NavBar />
       <View style={styles.title_box}>
-        <Text style={styles.title}>Year</Text>
+        <Text style={styles.title}>Weekly</Text>
       </View>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <YearlyCalendar />
-        <YearlyCalendar />
-        <YearlyCalendar />
-        <YearlyCalendar />
-      </ScrollView>
+      <HabitDesc />
     </View>
   );
 }
@@ -32,5 +28,8 @@ const styles = StyleSheet.create({
   title_box: {
     width: "100%",
     paddingHorizontal: 20,
+  },
+  scrollContainer: {
+    // marginBottom: 110,
   },
 });

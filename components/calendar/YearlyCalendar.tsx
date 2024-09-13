@@ -1,45 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 export default function YearlyCalendar() {
   // Total number of days in a year
   const totalDaysInYear = 365;
-  const batchSize = 50;
+  const filledDays = 280;
 
   // Array representing the calendar days
-  const [daysArray, setDaysArray] = useState<number[]>([]);
-  const [loadedDays, setLoadedDays] = useState(0);
-  //   const daysArray = Array.from({ length: totalDaysInYear }, (_, i) => i + 1);
-
-  useEffect(() => {
-    if (loadedDays < totalDaysInYear) {
-      const loadMoreDays = () => {
-        const newLoadedDays: number = Math.min(
-          loadedDays + batchSize,
-          totalDaysInYear
-        );
-        const newDaysArray = Array.from(
-          { length: newLoadedDays },
-          (_, i) => i + 1
-        );
-        setDaysArray(newDaysArray);
-        setLoadedDays(newLoadedDays);
-      };
-      loadMoreDays();
-    }
-  }, [loadedDays]);
+  const probabilityOfTrue = 0.4; // 40% chance of true
+  const daysArray = Array.from(
+    { length: totalDaysInYear },
+    () => Math.random() < probabilityOfTrue
+  );
 
   return (
     <View style={styles.container}>
       <Text style={styles.habitTitle}>Habit</Text>
       <View style={styles.calendarContainer}>
         <View style={styles.daysContainer}>
-          {daysArray.map((day, index) => (
+          {daysArray.map((isFilled, index) => (
             <View
               key={index}
               style={[
                 styles.dayBox,
-                day ? styles.filledDayBox : styles.emptyDayBox,
+                isFilled ? styles.filledDayBox : styles.emptyDayBox,
               ]}
             >
               <Text style={styles.dayText}>{""}</Text>
@@ -90,10 +74,10 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   filledDayBox: {
-    backgroundColor: "black",
+    backgroundColor: "#8B4CFF",
   },
   emptyDayBox: {
-    backgroundColor: "transparent",
+    backgroundColor: "#DECCFF",
   },
   dayText: {
     color: "white",
