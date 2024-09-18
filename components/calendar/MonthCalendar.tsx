@@ -7,7 +7,7 @@ export default function MonthCalendar() {
   const totalDaysInMonth = 30;
   const probabilityOfTrue = 0.4; // 40% chance of true
 
-  const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  // const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
   useEffect(() => {
     // Simulate data loading with a delay
@@ -43,13 +43,13 @@ export default function MonthCalendar() {
     <View style={styles.container}>
       <Text style={styles.monthTitle}>Month</Text>
       <View style={styles.calendarContainer}>
-        <View style={styles.weekHeader}>
+        {/* <View style={styles.weekHeader}>
           {daysOfWeek.map((day, index) => (
             <Text key={index} style={styles.weekDay}>
               {day}
             </Text>
           ))}
-        </View>
+        </View> */}
         <View style={styles.daysContainer}>
           {daysArray.map((day, index) => (
             <View
@@ -95,18 +95,18 @@ const styles = StyleSheet.create({
   calendarContainer: {
     width: "93%",
   },
-  weekHeader: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginBottom: 10,
-    left: 10,
-  },
-  weekDay: {
-    flex: 1,
-    textAlign: "center",
-    fontWeight: "600",
-    fontSize: 16,
-  },
+  // weekHeader: {
+  //   flexDirection: "row",
+  //   justifyContent: "space-around",
+  //   marginBottom: 10,
+  //   left: 10,
+  // },
+  // weekDay: {
+  //   flex: 1,
+  //   textAlign: "center",
+  //   fontWeight: "600",
+  //   fontSize: 16,
+  // },
   daysContainer: {
     flexDirection: "row",
     flexWrap: "wrap",

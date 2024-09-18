@@ -1,9 +1,15 @@
 import { Stack } from "expo-router";
+import { StatusBar as ExpoStatusBar } from "expo-status-bar";
+import { StatusBar } from "react-native";
 
-export default function ProfileLayout() {
+export default function HomeLayout() {
   return (
-    <Stack>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-    </Stack>
+    <>
+      <StatusBar backgroundColor="#f2f2f2" />
+      <ExpoStatusBar style="dark" />
+      <Stack>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+      </Stack>
+    </>
   );
 }

@@ -1,19 +1,17 @@
 import { Stack } from "expo-router";
+import { StatusBar as ExpoStatusBar } from "expo-status-bar";
+import { StatusBar } from "react-native";
 
 export default function HomeLayout() {
   return (
-    <Stack
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: "#f4511e",
-        },
-        headerTintColor: "#fff",
-        headerTitleStyle: {
-          fontWeight: "bold",
-        },
-      }}
-    >
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-    </Stack>
+    <>
+      <StatusBar backgroundColor="#f2f2f2" />
+      <ExpoStatusBar style="dark" />
+      <Stack>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="(AddHabit)" options={{ headerShown: false }} />
+        <Stack.Screen name="(Weekly)" options={{ headerShown: false }} />
+      </Stack>
+    </>
   );
 }

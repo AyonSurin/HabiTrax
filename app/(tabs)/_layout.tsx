@@ -1,7 +1,14 @@
 import { Tabs } from "expo-router";
-import { Image, View, StyleSheet } from "react-native";
+import { Image, View, StyleSheet, StatusBar } from "react-native";
+import { StatusBar as ExpoStatusBar } from "expo-status-bar";
 
 export default function TabLayout() {
+  <StatusBar backgroundColor="#f2f2f2" />;
+
+  {
+    /* Use ExpoStatusBar for setting barStyle */
+  }
+  <ExpoStatusBar style="dark" />;
   return (
     <Tabs
       screenOptions={{

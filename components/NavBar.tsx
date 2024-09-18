@@ -1,4 +1,5 @@
-import { StyleSheet, View, Image } from "react-native";
+import { router } from "expo-router";
+import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
 
 export default function NavBar() {
   return (
@@ -7,12 +8,15 @@ export default function NavBar() {
         style={styles.logo}
         source={require("@/assets/images/navbar_logo.png")}
       />
-      <View style={styles.iconsContainer}>
+      <TouchableOpacity
+        style={styles.iconsContainer}
+        onPress={() => router.navigate("/(AddHabit)")}
+      >
         <Image
           style={styles.icon}
           source={require("@/assets/images/add_habit.png")}
         />
-      </View>
+      </TouchableOpacity>
     </View>
   );
 }
