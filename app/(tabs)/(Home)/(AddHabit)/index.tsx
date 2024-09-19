@@ -1,8 +1,16 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Pressable, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
+import { router } from "expo-router";
 
 const NewHabitScreen = () => {
   const [habitName, setHabitName] = useState<string>("");
@@ -77,6 +85,12 @@ const NewHabitScreen = () => {
           </Pressable>
         ))}
       </View>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => router.navigate("/(Home)")}
+      >
+        <Text style={styles.buttonText}>Add Habit</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -134,6 +148,18 @@ const styles = StyleSheet.create({
   },
   dayButtonText: {
     color: "#000",
+  },
+  button: {
+    // backgroundColor: "#7e49ff",
+    backgroundColor: "#000000",
+    padding: 15,
+    borderRadius: 5,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 18,
   },
 });
 
