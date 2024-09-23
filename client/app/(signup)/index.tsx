@@ -1,5 +1,7 @@
 import { router } from "expo-router";
 import React, { useState } from "react";
+import axios from "axios";
+
 import {
   View,
   Text,
@@ -15,9 +17,23 @@ export default function SignupScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [secureTextEntry, setSecureTextEntry] = useState(true);
+  const [error, setError] = useState("");
 
   const togglePasswordVisibility = () => {
     setSecureTextEntry(!secureTextEntry);
+  };
+  const handleSignup = async () => {
+    try {
+      const response = await axios.post(
+        "http://192.168.0.114:3000/api/auth/signup",
+        { email, password, firstName, lastName }
+      );
+      console.log("User signed up:", response.data);
+      router.replace("/(tabs)");
+    } catch (err: any) {
+      const error = err.response?.data?.message || "An error occured";
+      setError(error.message);
+    }
   };
 
   return (
@@ -46,6 +62,8 @@ export default function SignupScreen() {
         keyboardType="email-address"
       />
 
+      {error ? <Text style={{ color: "red" }}>{error}</Text> : null}
+
       <View style={styles.passwordContainer}>
         <TextInput
           style={styles.passwordInput}
@@ -59,10 +77,7 @@ export default function SignupScreen() {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => router.replace("/(tabs)")}
-      >
+      <TouchableOpacity style={styles.button} onPress={handleSignup}>
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
     </View>

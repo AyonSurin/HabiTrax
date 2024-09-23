@@ -1,4 +1,7 @@
-import admin from "firebase-admin";
+import * as admin from "firebase/app";
+import * as dotenv from "dotenv";
+
+dotenv.config(); // Load env variables
 
 const firebaseApp = admin.initializeApp({
   credential: admin.credential.cert({
@@ -8,4 +11,5 @@ const firebaseApp = admin.initializeApp({
   }),
 });
 
+export const auth = admin.auth();
 export default firebaseApp;

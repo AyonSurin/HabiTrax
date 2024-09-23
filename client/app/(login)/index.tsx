@@ -8,14 +8,33 @@ import {
   Button,
   StyleSheet,
 } from "react-native";
+import axios from "axios";
 
 export default function SignInScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [secureTextEntry, setSecureTextEntry] = useState(true);
+  const [error, setError] = useState("");
 
   const togglePasswordVisibility = () => {
     setSecureTextEntry(!secureTextEntry);
+  };
+
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/login",
+        {
+          email,
+          password,
+        }
+      );
+      console.log("User logged in:", response.data);
+      router.replace("/(tabs)"); // Redirect to tabs on success
+    } catch (err: any) {
+      const error = err.response?.data?.message || "An error occurred";
+      setError(error);
+    }
   };
 
   return (
@@ -50,10 +69,7 @@ export default function SignInScreen() {
         <Text style={styles.forgotTxt}>Forgot Password?</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => router.replace("/(tabs)")}
-      >
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Sign In</Text>
       </TouchableOpacity>
     </View>

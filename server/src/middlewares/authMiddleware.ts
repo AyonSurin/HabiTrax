@@ -1,13 +1,23 @@
-// import { Request, Response, NextFunction } from 'express';
-// import admin from '../config/firebase';
+// src/middlewares/authMiddleware.ts
+import { Request, Response, NextFunction } from "express";
+import { auth } from "../config/firebase";
 
-// export const checkAuth = async (req: Request, res: Response, next: NextFunction) => {
-//   const token = req.headers.authorization?.split(' ')[1];
-//   try {
-//     const decodedToken = await admin.auth().verifyIdToken(token!);
-//     req.user = decodedToken;
-//     next();
-//   } catch (err) {
-//     res.status(401).json({ message: 'Unauthorized' });
-//   }
-// };
+export const authenticateUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const token = req.headers.authorization?.split("Bearer ")[1];
+
+  if (!token) {
+    return res.status(401).json({ message: "No token provided" });
+  }
+
+  try {
+    const decodedToken = await auth.verifyIdToken(token);
+    res.locals.user = decodedToken;
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+};

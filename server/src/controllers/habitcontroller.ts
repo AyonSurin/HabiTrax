@@ -1,17 +1,9 @@
-// import { Request, Response } from "express";
-// // import Habit from '../models/habitModel';
+// src/controllers/habitController.ts
+import { Request, Response } from "express";
 
-// export const createHabit = async (req: Request, res: Response) => {
-//   try {
-//     const { habit_name, habit_startDate } = req.body;
-//     const newHabit = new Habit({
-//       habit_name,
-//       habit_startDate,
-//       userId: req.user?.uid,
-//     });
-//     await newHabit.save();
-//     res.status(201).json(newHabit);
-//   } catch (err) {
-//     res.status(500).json({ message: "Error creating habit" });
-//   }
-// };
+export const getHabits = (req: Request, res: Response) => {
+  const userId = res.locals.user.uid; // Getting the user from middleware
+  return res.json({
+    message: `Successfully authenticated. Your UID is: ${userId}`,
+  });
+};
