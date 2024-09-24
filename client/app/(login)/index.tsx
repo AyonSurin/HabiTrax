@@ -1,5 +1,7 @@
 import { router } from "expo-router";
 import React, { useState } from "react";
+import { auth } from "@/constants/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import {
   View,
   Text,
@@ -22,17 +24,16 @@ export default function SignInScreen() {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/auth/login",
-        {
-          email,
-          password,
-        }
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
       );
-      console.log("User logged in:", response.data);
+      console.log("User logged in:", userCredential.user.displayName);
+      console.log("User uid:", userCredential.user.uid);
       router.replace("/(tabs)"); // Redirect to tabs on success
     } catch (err: any) {
-      const error = err.response?.data?.message || "An error occurred";
+      const error = err.message || "An error occurred";
       setError(error);
     }
   };
@@ -57,10 +58,13 @@ export default function SignInScreen() {
           onChangeText={setPassword}
           secureTextEntry={secureTextEntry}
         />
+
         <TouchableOpacity onPress={togglePasswordVisibility}>
           <Text style={styles.toggleText}>{secureTextEntry ? "👁️" : "🙈"}</Text>
         </TouchableOpacity>
       </View>
+
+      {error ? <Text style={{ color: "red" }}>{error}</Text> : null}
 
       <TouchableOpacity
         style={styles.forgotbtn}

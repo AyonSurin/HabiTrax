@@ -62,8 +62,6 @@ export default function SignupScreen() {
         keyboardType="email-address"
       />
 
-      {error ? <Text style={{ color: "red" }}>{error}</Text> : null}
-
       <View style={styles.passwordContainer}>
         <TextInput
           style={styles.passwordInput}
@@ -76,6 +74,8 @@ export default function SignupScreen() {
           <Text style={styles.toggleText}>{secureTextEntry ? "👁️" : "🙈"}</Text>
         </TouchableOpacity>
       </View>
+
+      {error ? <Text style={{ color: "red" }}>{error}</Text> : null}
 
       <TouchableOpacity style={styles.button} onPress={handleSignup}>
         <Text style={styles.buttonText}>Sign Up</Text>
