@@ -1,11 +1,9 @@
-// src/routes/habitRoutes.ts
 import { Router } from "express";
-import { getHabits } from "../controllers/habitcontroller";
-import { authenticateUser } from "../middlewares/authMiddleware";
+import { addHabit } from "../controllers/habitcontroller";
 
 const router = Router();
 
 // Protected route, requires Firebase authentication
-router.get("/habits", authenticateUser, getHabits);
+router.post("/addhabit", addHabit);
 
 export default router;
