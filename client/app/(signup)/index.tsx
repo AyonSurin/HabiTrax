@@ -1,6 +1,6 @@
 import { router } from "expo-router";
 import React, { useState } from "react";
-import axios from "axios";
+import axios from "@/constants/Axios";
 
 import {
   View,
@@ -24,10 +24,12 @@ export default function SignupScreen() {
   };
   const handleSignup = async () => {
     try {
-      const response = await axios.post(
-        "http://192.168.0.114:3000/api/auth/signup",
-        { email, password, firstName, lastName }
-      );
+      const response = await axios.post("/auth/signup", {
+        email,
+        password,
+        firstName,
+        lastName,
+      });
       console.log("User signed up:", response.data);
       router.replace("/(tabs)");
     } catch (err: any) {
