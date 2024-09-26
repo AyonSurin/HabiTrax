@@ -31,6 +31,8 @@ export default function SignupScreen() {
         lastName,
       });
       console.log("User signed up:", response.data);
+      const idToken = response.data.idToken;
+      localStorage.setItem("idToken", idToken);
       router.replace("/(tabs)");
     } catch (err: any) {
       const error = err.response?.data?.message || "An error occured";
