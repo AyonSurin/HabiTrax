@@ -1,6 +1,7 @@
+// import { router } from "expo-router";
 // import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
 
-// export default function Habit() {
+// export default function Habit({name, description}) {
 //   return (
 //     <View style={styles.container}>
 //       <View style={styles.leftContainer}>
@@ -11,15 +12,24 @@
 //           />
 //         </TouchableOpacity>
 //       </View>
-//       <View style={styles.centerContainer}>
-//         <Text style={styles.header}>Habit</Text>
-//         <Text style={styles.desc}>Lorem ipsum dolor sit amet consectetur.</Text>
-//       </View>
-//       <View style={styles.rightContainer}>
-//         <Text style={styles.streak_title}>40</Text>
-//         <Text style={styles.streak_unit}>Days</Text>
-//       </View>
-//       <Image source={require("@/assets/images/fire_icon.png")} />
+
+//       {/* Wrap this section with TouchableOpacity */}
+//       <TouchableOpacity
+//         style={styles.centerRightWrapper}
+//         onPress={() => router.navigate("/(Weekly)")}
+//       >
+//         <View style={styles.centerContainer}>
+//           <Text style={styles.header}>Habit</Text>
+//           <Text style={styles.desc}>
+//             Lorem ipsum dolor sit amet consectetur.
+//           </Text>
+//         </View>
+//         <View style={styles.rightContainer}>
+//           <Text style={styles.streak_title}>40</Text>
+//           <Text style={styles.streak_unit}>Days</Text>
+//         </View>
+//         <Image source={require("@/assets/images/fire_icon.png")} />
+//       </TouchableOpacity>
 //     </View>
 //   );
 // }
@@ -42,6 +52,11 @@
 //     flex: 1,
 //     alignItems: "center",
 //     justifyContent: "center",
+//   },
+//   centerRightWrapper: {
+//     flexDirection: "row",
+//     flex: 4,
+//     alignItems: "center",
 //   },
 //   centerContainer: {
 //     flex: 3,
@@ -86,7 +101,13 @@
 import { router } from "expo-router";
 import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
 
-export default function Habit() {
+export default function Habit({
+  name,
+  description,
+}: {
+  name: string;
+  description: string;
+}) {
   return (
     <View style={styles.container}>
       <View style={styles.leftContainer}>
@@ -98,16 +119,13 @@ export default function Habit() {
         </TouchableOpacity>
       </View>
 
-      {/* Wrap this section with TouchableOpacity */}
       <TouchableOpacity
         style={styles.centerRightWrapper}
         onPress={() => router.navigate("/(Weekly)")}
       >
         <View style={styles.centerContainer}>
-          <Text style={styles.header}>Habit</Text>
-          <Text style={styles.desc}>
-            Lorem ipsum dolor sit amet consectetur.
-          </Text>
+          <Text style={styles.header}>{name}</Text>
+          <Text style={styles.desc}>{description}</Text>
         </View>
         <View style={styles.rightContainer}>
           <Text style={styles.streak_title}>40</Text>

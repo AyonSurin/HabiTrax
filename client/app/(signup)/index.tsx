@@ -10,6 +10,7 @@ import {
   Button,
   StyleSheet,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function SignupScreen() {
   const [firstName, setFirstName] = useState("");
@@ -30,10 +31,9 @@ export default function SignupScreen() {
         firstName,
         lastName,
       });
-      console.log("User signed up:", response.data);
-      const idToken = response.data.idToken;
-      localStorage.setItem("idToken", idToken);
-      router.replace("/(tabs)");
+      console.log("User signed up:", response.data.uid);
+      await AsyncStorage.setItem("idToken", response.data.idToken);
+      router.navigate("/(tabs)");
     } catch (err: any) {
       const error = err.response?.data?.message || "An error occured";
       setError(error.message);

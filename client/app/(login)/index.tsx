@@ -11,6 +11,7 @@ import {
   StyleSheet,
 } from "react-native";
 import axios from "@/constants/Axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function SignInScreen() {
   const [email, setEmail] = useState("");
@@ -42,7 +43,8 @@ export default function SignInScreen() {
       console.log("User logged in:", userCredential.user.displayName);
       console.log("User uid:", userCredential.user.uid);
       const idToken = await userCredential.user.getIdToken();
-      localStorage.setItem("idToken", idToken);
+      console.log(idToken);
+      AsyncStorage.setItem("idToken", idToken);
       sendToServer(userCredential);
       router.replace("/(tabs)"); // Redirect to tabs on success
     } catch (err: any) {

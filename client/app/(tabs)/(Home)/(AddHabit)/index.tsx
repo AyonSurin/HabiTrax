@@ -11,12 +11,14 @@ import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
 import { router } from "expo-router";
+import Axios from "@/constants/Axios";
 
 const NewHabitScreen = () => {
-  const [habitName, setHabitName] = useState<string>("");
+  const [habitName, setHabitName] = useState<String>("");
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
   const [selectedDays, setSelectedDays] = useState<Number[]>([]);
+  const [description, setDescription] = useState<String>("");
 
   const handleDateChange = (
     event: DateTimePickerEvent,
@@ -41,6 +43,21 @@ const NewHabitScreen = () => {
     }
   };
 
+  const handleSubmit = async () => {
+    try {
+      const response = await Axios.post("/habits/addhabit", {
+        name: habitName,
+        description,
+        start_date: startDate,
+        target_days: selectedDays,
+      });
+      console.log(response.data.message);
+      router.navigate("/(Home)");
+    } catch (error: any) {
+      console.error("Error occured:", error.message);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>New Habit</Text>
@@ -48,7 +65,6 @@ const NewHabitScreen = () => {
       <TextInput
         style={styles.input}
         placeholder="Enter habit name"
-        value={habitName}
         onChangeText={setHabitName}
       />
 
@@ -85,10 +101,7 @@ const NewHabitScreen = () => {
           </Pressable>
         ))}
       </View>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => router.navigate("/(Home)")}
-      >
+      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
         <Text style={styles.buttonText}>Add Habit</Text>
       </TouchableOpacity>
     </View>

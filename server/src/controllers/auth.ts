@@ -14,7 +14,6 @@ export const signup = async (req: Request, res: Response) => {
       displayName: firstName,
     });
     console.log("User ID:", userCredential.uid);
-    console.log("User Credentials:", userCredential);
 
     const customToken = await firebaseApp
       .auth()

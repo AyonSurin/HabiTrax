@@ -16,7 +16,7 @@ const HabitSchema: Schema = new Schema(
     name: { type: String, required: true },
     description: { type: String },
     start_date: { type: Date, required: true }, // New field for the start date
-    target_days: { type: [String], required: true }, // Days of the week (e.g., ["Monday", "Wednesday"])
+    target_days: { type: [Number], required: true }, // Days of the week (e.g., ["Monday", "Wednesday"])
   },
   { timestamps: true }
 );
