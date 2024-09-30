@@ -1,63 +1,36 @@
-// import { View, Text, StyleSheet, StatusBar, ScrollView } from "react-native";
-// import Habit from "@/components/habit";
-// import NavBar from "@/components/NavBar";
-
-// export default function HomeScreen() {
-//   StatusBar.setBarStyle("dark-content");
-//   StatusBar.setBackgroundColor("#f2f2f2");
-//   return (
-//     <View style={styles.container}>
-//       <NavBar />
-//       <View style={styles.title_box}>
-//         <Text style={styles.title}>Today</Text>
-//       </View>
-//       <ScrollView style={{ width: "100%" }}>
-//         <Habit />
-//       </ScrollView>
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     alignItems: "center",
-//     paddingTop: 50,
-//   },
-//   title: {
-//     fontSize: 35,
-//     fontWeight: "800",
-//   },
-//   title_box: {
-//     width: "100%",
-//     paddingHorizontal: 20,
-//   },
-// });
-
-import { useState, useEffect } from "react";
-import { View, Text, StyleSheet, StatusBar, ScrollView } from "react-native";
+import { useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  StatusBar,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
+import { useSelector } from "react-redux";
+import { useAppDispatch, RootState } from "@/context/store"; // Redux setup
+import { setHabits } from "@/context/habitSlice"; // Redux actions
 import Habit from "@/components/habit";
 import NavBar from "@/components/NavBar";
-import Axios from "@/constants/Axios"; // Adjust the import for your axios instance
+import Axios from "@/constants/Axios";
+import { router } from "expo-router";
 
 export default function HomeScreen() {
-  const [habits, setHabits] = useState<
-    { _id: string; name: string; description: string }[]
-  >([]);
+  const dispatch = useAppDispatch();
+  const habits = useSelector((state: RootState) => state.habits.habits);
 
   useEffect(() => {
-    // Fetch the habits from the backend
     const fetchHabits = async () => {
       try {
-        const response = await Axios.get("/habits/gethabits"); // Adjust the endpoint as necessary
-        setHabits(response.data); // Assuming the server sends an array of habits
+        const response = await Axios.get("/habits/gethabits");
+        dispatch(setHabits(response.data)); // Store habits in Redux
       } catch (error) {
         console.error("Error fetching habits:", error);
       }
     };
 
     fetchHabits();
-  }, []);
+  }, [dispatch]);
 
   StatusBar.setBarStyle("dark-content");
   StatusBar.setBackgroundColor("#f2f2f2");
@@ -68,20 +41,34 @@ export default function HomeScreen() {
       <View style={styles.title_box}>
         <Text style={styles.title}>Today</Text>
       </View>
-      <ScrollView style={{ width: "100%" }}>
-        {habits.map((habit) => (
-          <Habit
-            key={habit._id} // Use a unique key, like the habit ID
-            name={habit.name}
-            description={habit.description}
-            // streak={habit.streak} // Assuming you have a streak field
-          />
-        ))}
-      </ScrollView>
+      {habits.length === 0 ? (
+        <View style={styles.emptyStateContainer}>
+          <Text style={styles.emptyText}>
+            Your habits list is empty, add new habits
+          </Text>
+          <TouchableOpacity
+            style={styles.emptyButton}
+            onPress={() => router.navigate("/(AddHabit)")}
+          >
+            <Text style={styles.emptyButtonText}>Add New Habit</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <ScrollView style={{ width: "100%" }}>
+          {habits.map((habit) => (
+            <Habit
+              key={habit._id}
+              name={habit.name}
+              description={habit.description}
+            />
+          ))}
+        </ScrollView>
+      )}
     </View>
   );
 }
 
+// Add styles for the empty state
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -95,5 +82,25 @@ const styles = StyleSheet.create({
   title_box: {
     width: "100%",
     paddingHorizontal: 20,
+  },
+  emptyStateContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  emptyText: {
+    fontSize: 20,
+    marginBottom: 10,
+  },
+  emptyButton: {
+    backgroundColor: "#000000",
+    padding: 15,
+    borderRadius: 5,
+    alignItems: "center",
+  },
+  emptyButtonText: {
+    color: "white",
+    fontSize: 15,
+    fontWeight: "bold",
   },
 });

@@ -18,11 +18,6 @@ export const signup = async (req: Request, res: Response) => {
     const customToken = await firebaseApp
       .auth()
       .createCustomToken(userCredential.uid);
-    const response = await axios.post(
-      `https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=${process.env.FIREBASE_API_KEY}`,
-      { token: customToken, returnSecureToken: true }
-    );
-    const idToken = response.data.idToken;
 
     const newUser = new User({
       user_id: userCredential.uid, // Use userCredential.user.uid
@@ -33,7 +28,7 @@ export const signup = async (req: Request, res: Response) => {
 
     await newUser.save();
 
-    res.status(201).json({ uid: userCredential.uid, idToken: idToken });
+    res.status(201).json({ uid: userCredential.uid, customToken: customToken });
   } catch (error: any) {
     console.error(error);
 
@@ -58,7 +53,8 @@ export const login = async (req: Request, res: Response) => {
     console.log(email);
 
     // Step 3: Check if the user exists in the database
-    let userFound = await User.findOne({ email: email });
+    let userFound = await User.findOne({ user_id: uid });
+    console.log(userFound);
 
     if (!userFound) {
       // If the user doesn't exist, create a new user entry
@@ -82,7 +78,7 @@ export const login = async (req: Request, res: Response) => {
       },
     });
   } catch (error: any) {
-    console.error("Error occured\n\n:", error);
+    console.error("Error occured at login\n\n:", error);
     return res.status(403).json({ message: "Unauthorized: Invalid token" });
   }
 };

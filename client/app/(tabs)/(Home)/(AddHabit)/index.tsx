@@ -11,6 +11,8 @@ import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
 import { router } from "expo-router";
+import { useAppDispatch } from "@/context/store";
+import { addHabit } from "@/context/habitSlice"; // Redux actions
 import Axios from "@/constants/Axios";
 
 const NewHabitScreen = () => {
@@ -20,16 +22,13 @@ const NewHabitScreen = () => {
   const [selectedDays, setSelectedDays] = useState<Number[]>([]);
   const [description, setDescription] = useState<String>("");
 
+  const dispatch = useAppDispatch(); // Redux dispatch
+
   const handleDateChange = (
     event: DateTimePickerEvent,
     selectedDate: Date | undefined
   ) => {
-    const {
-      type,
-      nativeEvent: { timestamp },
-    } = event;
-
-    if (type === "set" && selectedDate) {
+    if (selectedDate) {
       setStartDate(selectedDate);
     }
     setShowDatePicker(false);
@@ -51,10 +50,13 @@ const NewHabitScreen = () => {
         start_date: startDate,
         target_days: selectedDays,
       });
-      console.log(response.data.message);
-      router.navigate("/(Home)");
+
+      const newHabit = response.data.habit; // Assuming backend returns the new habit
+      dispatch(addHabit(newHabit)); // Add new habit to Redux state
+
+      router.navigate("/(Home)"); // Navigate to Home after adding habit
     } catch (error: any) {
-      console.error("Error occured:", error.message);
+      console.error("Error occurred:", error.message);
     }
   };
 
@@ -66,6 +68,12 @@ const NewHabitScreen = () => {
         style={styles.input}
         placeholder="Enter habit name"
         onChangeText={setHabitName}
+      />
+      <Text style={styles.label}>Habit Description</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Enter habit Description"
+        onChangeText={setDescription}
       />
 
       <Text style={styles.label}>Start Date</Text>
@@ -163,8 +171,7 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   button: {
-    // backgroundColor: "#7e49ff",
-    backgroundColor: "#000000",
+    backgroundColor: "#000",
     padding: 15,
     borderRadius: 5,
     alignItems: "center",

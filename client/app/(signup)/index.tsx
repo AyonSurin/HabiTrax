@@ -1,6 +1,7 @@
 import { router } from "expo-router";
 import React, { useState } from "react";
 import axios from "@/constants/Axios";
+import { signInWithCustomToken } from "firebase/auth";
 
 import {
   View,
@@ -11,6 +12,7 @@ import {
   StyleSheet,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { auth } from "@/constants/firebase";
 
 export default function SignupScreen() {
   const [firstName, setFirstName] = useState("");
@@ -32,7 +34,10 @@ export default function SignupScreen() {
         lastName,
       });
       console.log("User signed up:", response.data.uid);
-      await AsyncStorage.setItem("idToken", response.data.idToken);
+      const customToken = response.data.customToken;
+      const userCredential = await signInWithCustomToken(auth, customToken);
+      const accessToken = await userCredential.user.getIdToken();
+      await AsyncStorage.setItem("idToken", accessToken);
       router.navigate("/(tabs)");
     } catch (err: any) {
       const error = err.response?.data?.message || "An error occured";
