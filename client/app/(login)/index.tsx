@@ -10,7 +10,8 @@ import {
   Button,
   StyleSheet,
 } from "react-native";
-import axios from "axios";
+import axios from "@/constants/Axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function SignInScreen() {
   const [email, setEmail] = useState("");
@@ -22,6 +23,16 @@ export default function SignInScreen() {
     setSecureTextEntry(!secureTextEntry);
   };
 
+  const sendToServer = async (data: Object) => {
+    try {
+      const response = await axios.post("/auth/login", data);
+      console.log(response.data);
+    } catch (err: any) {
+      const error = err.response?.data?.message || "An error occured";
+      setError(error.message);
+    }
+  };
+
   const handleLogin = async () => {
     try {
       const userCredential = await signInWithEmailAndPassword(
@@ -31,6 +42,10 @@ export default function SignInScreen() {
       );
       console.log("User logged in:", userCredential.user.displayName);
       console.log("User uid:", userCredential.user.uid);
+      const idToken = await userCredential.user.getIdToken();
+      console.log(idToken);
+      AsyncStorage.setItem("idToken", idToken);
+      sendToServer(userCredential);
       router.replace("/(tabs)"); // Redirect to tabs on success
     } catch (err: any) {
       const error = err.message || "An error occurred";

@@ -1,8 +1,7 @@
-// src/middlewares/authMiddleware.ts
 import { Request, Response, NextFunction } from "express";
-import { auth } from "../config/firebase";
+import firebaseApp from "../config/firebase";
 
-export const authenticateUser = async (
+const authenticate = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -10,14 +9,23 @@ export const authenticateUser = async (
   const token = req.headers.authorization?.split("Bearer ")[1];
 
   if (!token) {
-    return res.status(401).json({ message: "No token provided" });
+    return res.status(401).json({ message: "Unauthorized: No token provided" });
   }
 
   try {
-    const decodedToken = await auth.verifyIdToken(token);
-    res.locals.user = decodedToken;
+    // Verify the Firebase token and extract the UID
+    const decodedToken = await firebaseApp.auth().verifyIdToken(token);
+    const uid = decodedToken.uid;
+
+    // Attach the uid to the request object
+    req.body.uid = uid;
+
+    // Continue to the next middleware or route handler
     next();
   } catch (error) {
-    return res.status(401).json({ message: "Unauthorized" });
+    console.error("Error verifying Firebase token:", error);
+    return res.status(403).json({ message: "Unauthorized: Invalid token" });
   }
 };
+
+export default authenticate;
