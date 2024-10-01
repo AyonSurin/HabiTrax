@@ -1,4 +1,5 @@
 import { Stack } from "expo-router";
+import React from "react";
 import { StatusBar as ExpoStatusBar } from "expo-status-bar";
 import { StatusBar } from "react-native";
 
@@ -10,7 +11,8 @@ export default function HomeLayout() {
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(AddHabit)" options={{ headerShown: false }} />
-        <Stack.Screen name="(Weekly)" options={{ headerShown: false }} />
+        <Stack.Screen name="habit" options={{ headerShown: false }} />
+        <Stack.Screen name="editHabit" options={{ headerShown: false }} />
       </Stack>
     </>
   );

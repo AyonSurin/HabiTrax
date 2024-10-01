@@ -1,22 +1,34 @@
 import { router } from "expo-router";
 import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
 
-export default function NavBar() {
+export default function NavBar({ id }: { id: string | number }) {
   return (
     <View style={styles.container}>
       <Image
         style={styles.logo}
         source={require("@/assets/images/navbar_logo.png")}
       />
-      <TouchableOpacity
-        style={styles.iconsContainer}
-        onPress={() => router.navigate("/(AddHabit)")}
-      >
-        <Image
-          style={styles.icon}
-          source={require("@/assets/images/add_habit.png")}
-        />
-      </TouchableOpacity>
+      {id !== 0 ? (
+        <TouchableOpacity
+          style={styles.iconsContainer}
+          onPress={() => router.navigate(`/editHabit/${id}`)}
+        >
+          <Image
+            style={styles.icon}
+            source={require("@/assets/images/edit-button.png")}
+          />
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          style={styles.iconsContainer}
+          onPress={() => router.navigate("/(AddHabit)")}
+        >
+          <Image
+            style={styles.icon}
+            source={require("@/assets/images/add_habit.png")}
+          />
+        </TouchableOpacity>
+      )}
     </View>
   );
 }

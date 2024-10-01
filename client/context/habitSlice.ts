@@ -25,8 +25,16 @@ const habitsSlice = createSlice({
     addHabit: (state, action: PayloadAction<Habit>) => {
       state.habits.push(action.payload);
     },
+    editHabit: (state, action: PayloadAction<Habit>) => {
+      const index = state.habits.findIndex(
+        (habit) => habit._id === action.payload._id
+      );
+      if (index !== -1) {
+        state.habits[index] = action.payload; // Update the specific habit
+      }
+    },
   },
 });
 
-export const { setHabits, addHabit } = habitsSlice.actions;
+export const { setHabits, addHabit, editHabit } = habitsSlice.actions;
 export default habitsSlice.reducer;

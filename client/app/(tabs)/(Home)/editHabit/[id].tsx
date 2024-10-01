@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,34 +7,20 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import DateTimePicker, {
-  DateTimePickerEvent,
-} from "@react-native-community/datetimepicker";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useAppDispatch } from "@/context/store";
-import { addHabit } from "@/context/habitSlice"; // Redux actions
+import { editHabit } from "@/context/habitSlice"; // Redux actions
 import Axios from "@/constants/Axios";
 
 const NewHabitScreen = () => {
   const [habitName, setHabitName] = useState<string>("");
-  const [startDate, setStartDate] = useState<Date>(new Date());
-  const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
-  const [selectedDays, setSelectedDays] = useState<Number[]>([]);
+  const [selectedDays, setSelectedDays] = useState<number[]>([]);
   const [description, setDescription] = useState<string>("");
+  const { id } = useLocalSearchParams();
 
   const dispatch = useAppDispatch(); // Redux dispatch
 
-  const handleDateChange = (
-    event: DateTimePickerEvent,
-    selectedDate: Date | undefined
-  ) => {
-    if (selectedDate) {
-      setStartDate(selectedDate);
-    }
-    setShowDatePicker(false);
-  };
-
-  const toggleDay = (day: Number) => {
+  const toggleDay = (day: number) => {
     if (selectedDays.includes(day)) {
       setSelectedDays(selectedDays.filter((d) => d !== day));
     } else {
@@ -42,19 +28,35 @@ const NewHabitScreen = () => {
     }
   };
 
+  useEffect(() => {
+    const getDetails = async () => {
+      try {
+        const response = await Axios.get(`/habits/getHabit/${id}`);
+        console.log(response.data);
+        setHabitName(response.data.name);
+        setDescription(response.data.description);
+        setSelectedDays(response.data.target_days || []); // Ensure it defaults to an empty array if undefined
+      } catch (error: any) {
+        console.error("Error occurred:", error.message);
+      }
+    };
+
+    getDetails();
+  }, [id]); // Adding id to dependency array
+
   const handleSubmit = async () => {
     try {
-      const response = await Axios.post("/habits/addhabit", {
+      const response = await Axios.patch(`/habits/editHabit/${id}`, {
         name: habitName,
         description,
-        start_date: startDate,
         target_days: selectedDays,
       });
 
-      const newHabit = response.data.habit; // Assuming backend returns the new habit
-      dispatch(addHabit(newHabit)); // Add new habit to Redux state
+      const editedHabit = response.data.habit;
+      dispatch(editHabit(editedHabit));
+      console.log("Edited habit successfully");
 
-      router.navigate("/(Home)"); // Navigate to Home after adding habit
+      router.navigate("/(Home)");
     } catch (error: any) {
       console.error("Error occurred:", error.message);
     }
@@ -62,36 +64,21 @@ const NewHabitScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>New Habit</Text>
+      <Text style={styles.title}>Edit Habit</Text>
       <Text style={styles.label}>Habit Name</Text>
       <TextInput
         style={styles.input}
+        value={habitName}
         placeholder="Enter habit name"
         onChangeText={setHabitName}
       />
       <Text style={styles.label}>Habit Description</Text>
       <TextInput
         style={styles.input}
+        value={description}
         placeholder="Enter habit Description"
         onChangeText={setDescription}
       />
-
-      <Text style={styles.label}>Start Date</Text>
-      <Pressable
-        onPress={() => setShowDatePicker(true)}
-        style={styles.dateInput}
-      >
-        <Text>{startDate.toLocaleDateString()}</Text>
-      </Pressable>
-      {showDatePicker && (
-        <DateTimePicker
-          value={startDate}
-          mode="date"
-          display="default"
-          onChange={handleDateChange}
-        />
-      )}
-
       <Text style={styles.label}>
         How many days per week should you complete this habit?
       </Text>
@@ -110,7 +97,7 @@ const NewHabitScreen = () => {
         ))}
       </View>
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.buttonText}>Add Habit</Text>
+        <Text style={styles.buttonText}>Save Changes</Text>
       </TouchableOpacity>
     </View>
   );

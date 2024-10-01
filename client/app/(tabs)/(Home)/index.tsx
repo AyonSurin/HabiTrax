@@ -22,7 +22,7 @@ export default function HomeScreen() {
   useEffect(() => {
     const fetchHabits = async () => {
       try {
-        const response = await Axios.get("/habits/gethabits");
+        const response = await Axios.get("/habits/habits");
         dispatch(setHabits(response.data)); // Store habits in Redux
       } catch (error) {
         console.error("Error fetching habits:", error);
@@ -37,7 +37,7 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <NavBar />
+      <NavBar id={0} />
       <View style={styles.title_box}>
         <Text style={styles.title}>Today</Text>
       </View>
@@ -58,6 +58,7 @@ export default function HomeScreen() {
           {habits.map((habit) => (
             <Habit
               key={habit._id}
+              id={habit._id}
               name={habit.name}
               description={habit.description}
             />

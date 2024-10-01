@@ -1,8 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { auth } from "@/constants/firebase";
-const baseURL =
-  "https://659a-2406-7400-75-6fc3-bbae-f2fe-b33e-5100.ngrok-free.app/";
+const baseURL = process.env.EXPO_PUBLIC_SERVER_URL;
 
 // Create an axios instance
 const Axios = axios.create({

@@ -1,7 +1,13 @@
 import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
 import WeekCalendar from "./calendar/WeeklyCalendar";
 
-export default function HabitDesc() {
+export default function HabitDesc({
+  name,
+  description,
+}: {
+  name: string;
+  description: string;
+}) {
   return (
     <View style={styles.container}>
       {/* Top content */}
@@ -15,10 +21,8 @@ export default function HabitDesc() {
           </TouchableOpacity>
         </View>
         <View style={styles.centerContainer}>
-          <Text style={styles.header}>Habit</Text>
-          <Text style={styles.desc}>
-            Lorem ipsum dolor sit amet consectetur.
-          </Text>
+          <Text style={styles.header}>{name}</Text>
+          <Text style={styles.desc}>{description}</Text>
         </View>
         <View style={styles.rightContainer}>
           <Text style={styles.streakTitle}>40</Text>

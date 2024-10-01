@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import firebaseApp from "../config/firebase";
 import User from "../models/UserModel"; // Your MongoDB User model
-import axios from "axios";
 
 export const signup = async (req: Request, res: Response) => {
   console.log(req.body);
