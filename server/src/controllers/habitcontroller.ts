@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Habit from "../models/Habit";
 import * as mongoose from "mongoose";
+import { messageLink } from "discord.js";
 
 export const addHabit = async (req: Request, res: Response) => {
   try {
@@ -124,5 +125,41 @@ export const getHabit = async (req: Request, res: Response) => {
     return res
       .status(500)
       .json({ message: "An error occurred while fetching the habit" });
+  }
+};
+
+export const removeHabit = async (req: Request, res: Response) => {
+  const habit_id = req.params.id;
+  console.log("Reached delete function");
+
+  try {
+    const findHabit = await Habit.findOne({ _id: habit_id }, { _id: 1 });
+
+    if (!findHabit) {
+      return res
+        .status(404)
+        .json({ message: `Habit with id ${habit_id} not found` });
+    }
+
+    const result = await Habit.deleteOne({ _id: habit_id });
+
+    if (result.deletedCount > 0) {
+      console.log(`Successfully deleted Habit with id: ${habit_id}`);
+      return res
+        .status(200)
+        .json({ message: `Successfully deleted Habit with id: ${habit_id}` });
+    } else {
+      return res
+        .status(500)
+        .json({ message: `Failed to delete Habit with id: ${habit_id}` });
+    }
+  } catch (error: any) {
+    console.error(
+      `Error occurred while trying to delete habit with id: ${habit_id}`,
+      error
+    );
+    return res
+      .status(500)
+      .json({ message: `Error deleting habit: ${error.message}` });
   }
 };

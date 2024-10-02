@@ -33,8 +33,14 @@ const habitsSlice = createSlice({
         state.habits[index] = action.payload; // Update the specific habit
       }
     },
+    deleteHabit: (state, action: PayloadAction<string>) => {
+      state.habits = state.habits.filter(
+        (habit) => habit._id !== action.payload
+      );
+    },
   },
 });
 
-export const { setHabits, addHabit, editHabit } = habitsSlice.actions;
+export const { setHabits, addHabit, editHabit, deleteHabit } =
+  habitsSlice.actions;
 export default habitsSlice.reducer;

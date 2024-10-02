@@ -15,7 +15,6 @@ export default function OpenHabit() {
   useEffect(() => {
     const getDetails = async () => {
       try {
-        console.log(id);
         const response = await Axios.get(`/habits/getHabit/${id}`);
         setHabitName(response.data.name);
         setDescription(response.data.description);

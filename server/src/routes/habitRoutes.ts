@@ -4,15 +4,16 @@ import {
   getHabits,
   getHabit,
   editHabit,
+  removeHabit,
 } from "../controllers/habitcontroller";
 import authenticate from "../middlewares/authMiddleware";
 
 const router = Router();
 
 router.post("/addhabit", authenticate, addHabit);
-router.get("/habits", authenticate, getHabits);
+router.get("/", authenticate, getHabits);
 router.patch("/editHabit/:id", authenticate, editHabit);
 router.get("/getHabit/:id", authenticate, getHabit);
-// router.get("/getHabit/:id", getHabit);
+router.delete("/removehabit/:id", authenticate, removeHabit);
 
 export default router;

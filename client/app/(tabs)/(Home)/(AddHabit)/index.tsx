@@ -19,7 +19,7 @@ const NewHabitScreen = () => {
   const [habitName, setHabitName] = useState<string>("");
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
-  const [selectedDays, setSelectedDays] = useState<Number[]>([]);
+  const [selectedDays, setSelectedDays] = useState<String[]>([]);
   const [description, setDescription] = useState<string>("");
 
   const dispatch = useAppDispatch(); // Redux dispatch
@@ -34,7 +34,7 @@ const NewHabitScreen = () => {
     setShowDatePicker(false);
   };
 
-  const toggleDay = (day: Number) => {
+  const toggleDay = (day: String) => {
     if (selectedDays.includes(day)) {
       setSelectedDays(selectedDays.filter((d) => d !== day));
     } else {
@@ -96,7 +96,7 @@ const NewHabitScreen = () => {
         How many days per week should you complete this habit?
       </Text>
       <View style={styles.daysContainer}>
-        {[1, 2, 3, 4, 5, 6, 7].map((day) => (
+        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
           <Pressable
             key={day}
             style={[
@@ -159,8 +159,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#000",
     borderRadius: 5,
-    padding: 10,
-    width: 40,
+    paddingVertical: 10,
+    paddingHorizontal: 5,
+    width: 45,
     alignItems: "center",
   },
   selectedDayButton: {

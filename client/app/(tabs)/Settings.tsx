@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Button, Alert } from "react-native";
+import { View, Text, StyleSheet, Alert, TouchableOpacity } from "react-native";
 import { auth } from "@/constants/firebase"; // Your firebase auth instance
 import { signOut } from "firebase/auth";
 import { useRouter } from "expo-router";
@@ -21,7 +21,9 @@ export default function Settings() {
       <View style={styles.title_box}>
         <Text style={styles.title}>Settings</Text>
       </View>
-      <Button title="Logout" onPress={handleLogout} />
+      <TouchableOpacity style={styles.button} onPress={handleLogout}>
+        <Text style={styles.buttonText}>Logout</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -39,5 +41,16 @@ const styles = StyleSheet.create({
   title_box: {
     width: "100%",
     paddingHorizontal: 20,
+  },
+  button: {
+    backgroundColor: "#000000",
+    padding: 15,
+    borderRadius: 5,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 15,
+    fontWeight: "bold",
   },
 });

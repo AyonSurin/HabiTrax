@@ -22,7 +22,7 @@ export default function HomeScreen() {
   useEffect(() => {
     const fetchHabits = async () => {
       try {
-        const response = await Axios.get("/habits/habits");
+        const response = await Axios.get("/habits/");
         dispatch(setHabits(response.data)); // Store habits in Redux
       } catch (error) {
         console.error("Error fetching habits:", error);

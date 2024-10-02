@@ -6,21 +6,22 @@ import {
   Pressable,
   StyleSheet,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { useAppDispatch } from "@/context/store";
-import { editHabit } from "@/context/habitSlice"; // Redux actions
+import { deleteHabit, editHabit } from "@/context/habitSlice"; // Redux actions
 import Axios from "@/constants/Axios";
 
 const NewHabitScreen = () => {
   const [habitName, setHabitName] = useState<string>("");
-  const [selectedDays, setSelectedDays] = useState<number[]>([]);
+  const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const [description, setDescription] = useState<string>("");
-  const { id } = useLocalSearchParams();
+  const { id }: { id: string } = useLocalSearchParams();
 
   const dispatch = useAppDispatch(); // Redux dispatch
 
-  const toggleDay = (day: number) => {
+  const toggleDay = (day: string) => {
     if (selectedDays.includes(day)) {
       setSelectedDays(selectedDays.filter((d) => d !== day));
     } else {
@@ -32,7 +33,6 @@ const NewHabitScreen = () => {
     const getDetails = async () => {
       try {
         const response = await Axios.get(`/habits/getHabit/${id}`);
-        console.log(response.data);
         setHabitName(response.data.name);
         setDescription(response.data.description);
         setSelectedDays(response.data.target_days || []); // Ensure it defaults to an empty array if undefined
@@ -62,6 +62,41 @@ const NewHabitScreen = () => {
     }
   };
 
+  const confirmDelete = () => {
+    Alert.alert(
+      "Delete Habit?",
+      `Would you like to delete ${habitName} from your Habit list?`,
+      [
+        {
+          text: "No",
+          onPress: () => {
+            console.log("User pressed No");
+          },
+          style: "cancel",
+        },
+        {
+          text: "Yes",
+          onPress: () => {
+            console.log("User pressed yes");
+            handleDelete();
+            router.navigate("/(Home)");
+          },
+        },
+      ]
+    );
+  };
+
+  const handleDelete = async () => {
+    try {
+      const response = await Axios.delete(`/habits/removehabit/${id}`);
+      if (response.status == 200) {
+        dispatch(deleteHabit(id));
+      }
+    } catch (error: any) {
+      console.error("Error occurred while trying to delete habit: \n", error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Edit Habit</Text>
@@ -83,7 +118,7 @@ const NewHabitScreen = () => {
         How many days per week should you complete this habit?
       </Text>
       <View style={styles.daysContainer}>
-        {[1, 2, 3, 4, 5, 6, 7].map((day) => (
+        {["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"].map((day) => (
           <Pressable
             key={day}
             style={[
@@ -98,6 +133,10 @@ const NewHabitScreen = () => {
       </View>
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
         <Text style={styles.buttonText}>Save Changes</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.deleteBtn} onPress={confirmDelete}>
+        <Text style={styles.buttonText}>Delete Habit</Text>
       </TouchableOpacity>
     </View>
   );
@@ -146,8 +185,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#000",
     borderRadius: 5,
-    padding: 10,
-    width: 40,
+    paddingHorizontal: 5,
+    paddingVertical: 10,
+    width: 45,
     alignItems: "center",
   },
   selectedDayButton: {
@@ -167,6 +207,13 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
     fontSize: 18,
+  },
+  deleteBtn: {
+    marginTop: 15,
+    backgroundColor: "#f53649",
+    padding: 15,
+    borderRadius: 5,
+    alignItems: "center",
   },
 });
 
