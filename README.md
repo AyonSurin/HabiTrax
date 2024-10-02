@@ -4,6 +4,7 @@ HabiTrax is a habit tracker app designed to help users develop and maintain prod
 
 ## Technologies Used
 
-- **Frontend:** React Native with Expo framework  
+- **Frontend:** React Native with Expo framework, Redux for Global State Management  
 - **Backend:** Node.js and Express.js in TypeScript  
-- **Database:** MongoDB  
+- **Database:** MongoDB
+- **Tools:** Firebase Auth
