@@ -33,7 +33,7 @@ export default function Habit({
           <Text style={styles.streak_title}>40</Text>
           <Text style={styles.streak_unit}>Days</Text>
         </View>
-        <Image source={require("@/assets/images/fire_icon.png")} />
+        <Image style={styles.fire} source={require("@/assets/images/fire_purple.png")} />
       </TouchableOpacity>
     </View>
   );
@@ -43,8 +43,8 @@ const styles = StyleSheet.create({
   container: {
     width: "95%",
     height: 100,
-    backgroundColor: "white",
-    borderColor: "black",
+    backgroundColor: "#f0eefc",
+    borderColor: "#8B4CFF",
     borderWidth: 2.5,
     borderRadius: 30,
     alignSelf: "center",
@@ -86,8 +86,8 @@ const styles = StyleSheet.create({
     color: "black",
   },
   tick: {
-    height: 60,
-    width: 60,
+    height: 50,
+    width: 50,
   },
   streak_title: {
     fontSize: 25,
@@ -101,4 +101,8 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     textAlign: "right",
   },
+  fire:{
+    height: 35,
+    width: 35,
+  }
 });

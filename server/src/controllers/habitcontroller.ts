@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import Habit from "../models/Habit";
-import * as mongoose from "mongoose";
-import { messageLink } from "discord.js";
+import { Types } from "mongoose";
 
 export const addHabit = async (req: Request, res: Response) => {
   try {
@@ -18,7 +17,7 @@ export const addHabit = async (req: Request, res: Response) => {
 
     // Create a new habit
     const newHabit = new Habit({
-      habit_id: new mongoose.Types.ObjectId(), // Generates a unique habit ID
+      habit_id: new Types.ObjectId(), // Generates a unique habit ID
       user_id, // Firebase UID
       name,
       description,

@@ -51,7 +51,7 @@ export default function TabLayout() {
               <View style={focused ? styles.activeTab : styles.tab}>
                 <Image
                   style={{ width: 25, height: 25 }}
-                  source={require("@/assets/images/tick.png")} // Replace "#" with the actual image path
+                  source={require("@/assets/images/tabs_tick.png")} // Replace "#" with the actual image path
                 />
               </View>
             ),
