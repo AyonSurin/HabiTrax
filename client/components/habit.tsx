@@ -1,6 +1,7 @@
 import { Href, router } from "expo-router";
 import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
-
+import { useState, useEffect } from "react";
+import Axios from "@/constants/Axios";
 export default function Habit({
   id,
   name,
@@ -10,13 +11,49 @@ export default function Habit({
   name: string;
   description: string;
 }) {
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [streak, setStreak] = useState(0)
+
+  useEffect(() => {
+    const fetchCompletionStatus = async () => {
+      try {
+        const response = await Axios.get(`/progress/${id}/status`);
+        if (response.data.completed) {
+          setIsCompleted(true);
+          setStreak(response.data.streak);
+        }
+      } catch (error) {
+        console.error("Error fetching habit completion status:", error);
+      }
+    };
+    fetchCompletionStatus();
+  }, [id]);
+
+  const handleCompletion = async () => {
+    try {
+      const response = await Axios.patch(`/progress/${id}/complete`, {
+        date_completed: new Date(),
+      });
+
+      if (response.status === 200) {
+        setIsCompleted(true);
+      }
+    } catch (error) {
+      console.error("Error marking habit as completed:", error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.leftContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleCompletion}>
           <Image
             style={styles.tick}
-            source={require("@/assets/images/tick.png")}
+            source={
+              isCompleted
+                ? require("@/assets/images/tick_complete.png") // Image for completed
+                : require("@/assets/images/tick.png") // Image for incomplete
+            }
           />
         </TouchableOpacity>
       </View>
@@ -30,10 +67,13 @@ export default function Habit({
           <Text style={styles.desc}>{description}</Text>
         </View>
         <View style={styles.rightContainer}>
-          <Text style={styles.streak_title}>40</Text>
+          <Text style={styles.streak_title}>{streak}</Text>
           <Text style={styles.streak_unit}>Days</Text>
         </View>
-        <Image style={styles.fire} source={require("@/assets/images/fire_purple.png")} />
+        <Image
+          style={styles.fire}
+          source={require("@/assets/images/fire_purple.png")}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -101,8 +141,8 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     textAlign: "right",
   },
-  fire:{
+  fire: {
     height: 35,
     width: 35,
-  }
+  },
 });
