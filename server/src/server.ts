@@ -4,7 +4,7 @@ import authRoutes from "./routes/authRoutes";
 import dotenv from "dotenv";
 import connectDB from "./config/db";
 import habitRoutes from "./routes/habitRoutes";
-import habitProgress from "./routes/habitProgress"
+import habitProgress from "./routes/progressRoutes"
 
 dotenv.config(); // Load env variables
 
