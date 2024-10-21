@@ -37,6 +37,7 @@ export default function Habit({
 
       if (response.status === 200) {
         setIsCompleted(true);
+        setStreak(response.data.streak)
       }
     } catch (error) {
       console.error("Error marking habit as completed:", error);

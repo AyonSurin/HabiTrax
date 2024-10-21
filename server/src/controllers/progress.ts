@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import HabitCompletion from "../models/HabitCompletion";
 import HabitProgress from "../models/HabitProgress";
+import { Types } from "mongoose";
 
 const getDateRanges = (date: Date) => {
   const week_start = new Date(date);
@@ -56,10 +57,10 @@ export const completeTask = async (req: Request, res: Response) => {
     const habit_id = req.params.id;
     const { date_completed } = req.body;
     const user_id = req.body.uid;
+    console.log(user_id);
 
     const completionDate = new Date(date_completed);
     completionDate.setHours(0, 0, 0, 0);
-
     const yesterday = new Date(completionDate);
     yesterday.setDate(yesterday.getDate() - 1);
 
@@ -68,7 +69,10 @@ export const completeTask = async (req: Request, res: Response) => {
     // Find or create HabitCompletion
     let habitCompletion = await HabitCompletion.findOneAndUpdate(
       { habit_id, user_id, date_completed: completionDate },
-      { status: "complete" },
+      {
+        $setOnInsert: { habit_completion_id: new Types.ObjectId() },
+        status: "complete",
+      },
       { new: true, upsert: true, setDefaultsOnInsert: true }
     );
 
@@ -127,6 +131,8 @@ export const completeTask = async (req: Request, res: Response) => {
     // Save updates
     await habitProgress.save();
 
+    console.log(habitProgress.current_streak);
+
     res.status(200).json({
       success: true,
       message: "Task marked as complete!",
@@ -142,48 +148,76 @@ export const completeTask = async (req: Request, res: Response) => {
     });
   }
 };
-// export const getStatus = async (req: Request, res: Response) => {
-//   try {
-//     const { id } = req.params;
-//     const user_id = req.body.uid;
-//     const date = new Date().setHours(0, 0, 0, 0);
 
-//     // Fetch the habit completion status
-//     const habitCompletion = await HabitCompletion.findOne({
-//       habit_id: id,
-//       user_id,
-//       date_completed: date,
-//     });
+export const getStatus = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const user_id = req.body.uid;
 
-//     // Fetch the habit progress data to check the streak
-//     const habitProgress = await HabitProgress.findOne({
-//       habit_id: id,
-//       user_id,
-//     });
+    // Fetch today's date as a Date object (at midnight UTC)
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Ensure it starts at midnight UTC
 
-//     // Determine if the task is completed today
-//     const completedToday =
-//       habitCompletion && habitCompletion.status === "complete";
+    // Fetch the habit completion status for today
+    const habitCompletion = await HabitCompletion.findOne({
+      habit_id: id,
+      user_id,
+      date_completed: today,
+    });
 
-//     // Calculate the streak
-//     let streak = 0;
-//     if (habitProgress && habitProgress.month_progress) {
-//       for (let i = habitProgress.month_progress.length - 1; i >= 0; i--) {
-//         const progressEntry = habitProgress.month_progress[i];
-//         if (progressEntry.status === "complete") {
-//           streak++;
-//         } else {
-//           break; // Stop counting if we hit an incomplete day
-//         }
-//       }
-//     }
+    // Fetch the habit progress data
+    const habitProgress = await HabitProgress.findOne({
+      habit_id: id,
+      user_id,
+    });
 
-//     res.status(200).json({
-//       completed: completedToday,
-//       streak: streak,
-//     });
-//   } catch (error) {
-//     console.error("Error fetching completion status:", error);
-//     res.status(500).json({ success: false, message: "Server error." });
-//   }
-// };
+    // Check if the task is completed today
+    const completedToday =
+      habitCompletion && habitCompletion.status === "complete";
+
+    let streak = 0;
+
+    // Calculate streak from week_progress, month_progress, and year_progress if habitProgress exists
+    if (habitProgress) {
+      const progressEntries = [
+        ...habitProgress.week_progress.progress_data,
+        ...habitProgress.month_progress.progress_data,
+        ...habitProgress.year_progress.progress_data,
+      ];
+
+      // Use a Map to ensure uniqueness of the dates
+      const uniqueDates = new Map<
+        string,
+        { date: Date; status: "complete" | "incomplete" }
+      >();
+
+      progressEntries.forEach((entry) => {
+        const dateKey = entry.date.toISOString().split("T")[0]; // Format date as YYYY-MM-DD
+        if (!uniqueDates.has(dateKey)) {
+          uniqueDates.set(dateKey, entry);
+        }
+      });
+
+      const sortedEntries = Array.from(uniqueDates.values()).sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+      );
+
+      // Iterate through the unique entries in reverse order
+      for (const progressEntry of sortedEntries) {
+        if (progressEntry.status === "complete") {
+          streak++;
+        } else {
+          break; // Stop counting if an incomplete day is found
+        }
+      }
+    }
+
+    res.status(200).json({
+      completed: completedToday,
+      streak: streak,
+    });
+  } catch (error) {
+    console.error("Error fetching completion status:", error);
+    res.status(500).json({ success: false, message: "Server error." });
+  }
+};
