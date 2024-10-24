@@ -57,7 +57,7 @@ export default function TabLayout() {
             ),
           }}
         />
-        <Tabs.Screen
+        {/* <Tabs.Screen
           name="(Profile)"
           options={{
             headerShown: false,
@@ -71,7 +71,7 @@ export default function TabLayout() {
               </View>
             ),
           }}
-        />
+        /> */}
         <Tabs.Screen
           name="Settings"
           options={{

@@ -1,5 +1,5 @@
 import { router } from "expo-router";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { auth } from "@/constants/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import {
@@ -7,8 +7,8 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  Button,
   StyleSheet,
+  BackHandler,
 } from "react-native";
 import axios from "@/constants/Axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -18,6 +18,19 @@ export default function SignInScreen() {
   const [password, setPassword] = useState("");
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const backAction = () => {
+      router.navigate("/");
+      return true; // Prevent default behavior of the back button
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+    return () => backHandler.remove(); // Cleanup the event listener on unmount
+  }, []);
 
   const togglePasswordVisibility = () => {
     setSecureTextEntry(!secureTextEntry);

@@ -1,5 +1,5 @@
 import { router } from "expo-router";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "@/constants/Axios";
 import { signInWithCustomToken } from "firebase/auth";
 
@@ -8,8 +8,8 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  Button,
   StyleSheet,
+  BackHandler,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { auth } from "@/constants/firebase";
@@ -25,6 +25,20 @@ export default function SignupScreen() {
   const togglePasswordVisibility = () => {
     setSecureTextEntry(!secureTextEntry);
   };
+
+  useEffect(() => {
+    const backAction = () => {
+      router.navigate("/");
+      return true; // Prevent default behavior of the back button
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+    return () => backHandler.remove(); // Cleanup the event listener on unmount
+  }, []);
+
   const handleSignup = async () => {
     try {
       const response = await axios.post("/auth/signup", {

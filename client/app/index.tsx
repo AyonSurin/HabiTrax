@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Button, Image, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { useRouter } from "expo-router";
 import { auth } from "@/constants/firebase";
 import { onAuthStateChanged } from "firebase/auth";
@@ -30,13 +37,23 @@ const WelcomeScreen = () => {
   return loading ? null : (
     <View style={styles.container}>
       <Image
-        source={require("@/assets/images/fire_icon.png")}
+        source={require("@/assets/images/navbar_logo.png")}
         style={styles.logo}
       />
-      <Text style={styles.welcomeText}>Welcome to Your App</Text>
+      <Text style={styles.welcomeText}>Welcome to HabiTrax</Text>
       <View style={styles.buttonContainer}>
-        <Button title="Sign In" onPress={() => router.replace("/(login)")} />
-        <Button title="Sign Up" onPress={() => router.replace("/(signup)")} />
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => router.replace("/(signup)")}
+        >
+          <Text style={styles.buttonText}>Sign Up</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => router.replace("/(login)")}
+        >
+          <Text style={styles.buttonText}>Sign In</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -68,6 +85,17 @@ const styles = StyleSheet.create({
     width: "80%",
     justifyContent: "space-around",
     marginTop: 20,
+  },
+  button: {
+    backgroundColor: "#000000",
+    padding: 15,
+    borderRadius: 5,
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  buttonText: {
+    color: "#fff",
+    fontWeight: "bold",
   },
 });
 
